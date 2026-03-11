@@ -2,18 +2,10 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Копируем зависимости
 COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Устанавливаем зависимости (без кэша)
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
-
-# Копируем весь код
 COPY . .
 
-# Указываем порт
-ENV PORT=8000
-
-# Запускаем
-CMD uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}
+# Просто запускаем main.py
+CMD ["python", "main.py"]
